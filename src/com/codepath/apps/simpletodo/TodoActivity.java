@@ -3,12 +3,15 @@ package com.codepath.apps.simpletodo;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
 import org.apache.commons.io.FileUtils;
+import com.codepath.apps.simpletodo.EditItemFragment.EditItemDialogListener;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +22,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class TodoActivity extends Activity {
+public class TodoActivity extends FragmentActivity implements EditItemDialogListener {
 	private ArrayList<String> items;
 	private ArrayAdapter<String> itemsAdapter;
 	private ListView lvItems;
 	private EditText etNewItem;
-	private final int REQUEST_CODE = 20;
+	EditItemFragment frag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +38,6 @@ public class TodoActivity extends Activity {
 		readItems();
 		itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
 		lvItems.setAdapter(itemsAdapter);
-		items.add("First Item");
-		items.add("Second Item");
 		setupListViewListener();
 	}
 	
@@ -60,29 +61,26 @@ public class TodoActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				// first parameter is the context, second is the class of the activity to launch
-				Intent i = new Intent(TodoActivity.this, EditItemActivity.class);
-				// put "extras" into the bundle for access in the second activity
-				i.putExtra("item", items.get(position));
-				i.putExtra("pos", position);
-				startActivityForResult(i, REQUEST_CODE);
+				showEditDialog(position, items.get(position));
 			}
 		});
 	}
 	
-	// handle the result of the EditItemActivity
+	
+	private void showEditDialog(int pos, String item) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		frag = EditItemFragment.newInstance(pos, item);
+		frag.show(ft, "fragment_edit_item");
+	}
+	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	  // REQUEST_CODE is defined above
-	  if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-	     // Extract name value from result extras
-	     String item = data.getExtras().getString("item");
-	     int pos = data.getIntExtra("pos", 0);
-	     items.set(pos, item);
-	     itemsAdapter.notifyDataSetChanged();
-	     saveItems();
-	  }
-	} 
+	public void onFinishEditDialog(int pos, String item) {
+		// TODO Auto-generated method stub
+		items.set(pos, item);
+		itemsAdapter.notifyDataSetChanged();
+		saveItems();
+		frag.dismiss();
+	}
 	
 	private void readItems() {
 		File filesDir = getFilesDir();
@@ -104,6 +102,5 @@ public class TodoActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
 
 }

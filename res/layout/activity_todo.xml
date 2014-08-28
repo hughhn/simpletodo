@@ -32,5 +32,11 @@
         android:layout_marginLeft="16dp"
         android:ems="10"
         android:hint="@string/enter_prompt" />
-
+    
+      <FrameLayout
+        android:id="@+id/editItemFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+      </FrameLayout>
+    
 </RelativeLayout>
