@@ -1,27 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
 
     <EditText
         android:id="@+id/editExistingItem"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
         android:inputType="textMultiLine" >
 
         <requestFocus />
     </EditText>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        
+	    <Button
+	        android:id="@+id/btnHighPrio"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:background="@android:color/holo_red_light"
+	        android:gravity="left|center"
+	        android:text="@string/high_prio_label" />
+	    
+	    <Button
+	        android:id="@+id/btnMediumPrio"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:background="@android:color/holo_orange_light"
+	        android:gravity="left|center"
+	        android:text="@string/medium_prio_label" />
+	    
+	    <Button
+	        android:id="@+id/btnLowPrio"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:background="@android:color/holo_green_light"
+	        android:gravity="left|center"
+	        android:text="@string/low_prio_label" />
+    
+    </LinearLayout>
+    
     <Button
         android:id="@+id/btnSave"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editExistingItem"
-        android:layout_centerHorizontal="true"
+        android:gravity="left|center"
         android:text="@string/save_btn_label" />
 
-</RelativeLayout>
+</LinearLayout>
